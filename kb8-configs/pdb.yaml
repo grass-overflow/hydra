@@ -1,0 +1,10 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: rtsm-pdb
+  namespace: hydra
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: hydra

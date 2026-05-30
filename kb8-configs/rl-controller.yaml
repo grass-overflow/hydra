@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rl-agent-service
+  namespace: hydra
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rl-agent-service
+  template:
+    metadata:
+      labels:
+        app: rl-agent-service
+    spec:
+      containers:
+      - name: agent
+        image: rl-controller:latest
+        imagePullPolicy: IfNotPresent
+        command: ["uvicorn", "rl_agent_service:app", "--host", "0.0.0.0", "--port", "8000"]
+        ports:
+        - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rl-agent-service
+  namespace: hydra
+spec:
+  selector:
+    app: rl-agent-service
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chaos-rl-controller
+  namespace: hydra
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chaos-rl-controller
+  template:
+    metadata:
+      labels:
+        app: chaos-rl-controller
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8001"
+        prometheus.io/path: "/metrics"
+    spec:
+      serviceAccountName: rl-controller-sa
+      containers:
+      - name: controller
+        image: rl-controller:latest
+        imagePullPolicy: IfNotPresent
+        command: ["python", "chaos_rl_controller.py"]
+        env:
+        - name: CONFIG_PATH
+          value: "config.yaml"
+        - name: CHAOS_DIR
+          value: "./chaosmesh"
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: rl-controller-sa
+  namespace: hydra
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: rl-controller-role
+rules:
+- apiGroups: ["", "apps", "chaos-mesh.org"]
+  resources: ["pods", "deployments", "services", "stresschaos", "podchaos", "networkchaos"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: rl-controller-binding
+subjects:
+- kind: ServiceAccount
+  name: rl-controller-sa
+  namespace: hydra
+roleRef:
+  kind: ClusterRole
+  name: rl-controller-role
+  apiGroup: rbac.authorization.k8s.io

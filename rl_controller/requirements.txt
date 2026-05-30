@@ -1,0 +1,8 @@
+fastapi==0.103.1
+uvicorn==0.23.2
+stable-baselines3>=2.1.0
+kubernetes==28.1.0
+requests==2.31.0
+numpy
+pyyaml
+prometheus_client

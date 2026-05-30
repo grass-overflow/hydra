@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hydra-deployment
+  namespace: hydra
+  labels:
+    app: hydra
+spec:
+  selector:
+    matchLabels:
+      app: hydra
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "80"
+        prometheus.io/path: "/metrics"
+        
+      labels:
+        app: hydra
+
+    spec:
+      containers:
+      - name: hydra-container
+        image: rtsm-hydra:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: hydra-port
+          containerPort: 80
+
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hydra-service
+  namespace: hydra
+spec:
+  selector:
+    app: hydra
+  ports:
+    - name: hydra-service-port
+      port: 80
+      targetPort: hydra-port
+      nodePort: 30000
+  type: LoadBalancer

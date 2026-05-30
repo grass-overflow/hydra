@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Real Time Stock Monitor</title>
+    <style>
+        h1{
+            font-weight:lighter;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <p>Time taken for last update: <span id="lastUpdateTime">Loading...</span></p>
+    <p>Ticker: <span id="ticker">Loading...</span></p>
+    <p>Current Price: <span id="current_price">Loading...</span></p>
+    <p>Price Change: <span id="price_change">Loading...</span></p>
+    <p>Percentage Change: <span id="percentage_change">Loading...</span></p>
+    <p>Market Cap: <span id="market_cap">Loading...</span></p>
+    <p>Volume: <span id="volume">Loading...</span></p>
+    <script>
+        const qStr = window.location.search;
+        const urlParams = new URLSearchParams(qStr);
+        function updateData() {
+            let url = '/data?ticker=';
+            if (urlParams.has('ticker')) {
+                url += urlParams.get('ticker');
+            } else {
+                url += 'GOOGL';
+            }
+            const startTime = Date.now();
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const endTime = Date.now();
+                    const elapsedTime = (endTime - startTime) / 1000;
+                    document.getElementById('lastUpdateTime').textContent = elapsedTime;
+                    document.getElementById('ticker').textContent = data.ticker;
+                    document.getElementById('current_price').textContent = data.current_price;
+                    document.getElementById('price_change').textContent = data.price_change;
+                    document.getElementById('percentage_change').textContent = data.percentage_change;
+                    document.getElementById('market_cap').textContent = data.market_cap;
+                    document.getElementById('volume').textContent = data.volume;
+
+                    console.log('Updated data now');
+                });
+        }
+        setInterval(updateData, 2000);
+    </script>
+</body>
+</html>

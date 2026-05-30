@@ -1,0 +1,8 @@
+flask
+yfinance
+prometheus_flask_exporter
+fastapi[standard]
+uvicorn[standard]
+Jinja2
+pandas
+numpy

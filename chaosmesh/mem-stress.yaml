@@ -1,0 +1,15 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: StressChaos
+metadata:
+  name: memory-stress-test
+  namespace: hydra
+spec:
+  mode: one
+  selector:
+    labelSelectors:
+      app: hydra
+  stressors:
+    memory:
+      workers: 1
+      size: '200MiB'
+  duration: '5m'

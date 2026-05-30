@@ -1,0 +1,80 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rtsm-ingress
+  namespace: hydra
+  annotations:
+    # ── Retry & Upstream Failover ─────────────────────────────────────────────
+    # Conditions that trigger a retry against the next healthy upstream pod.
+    # 'error'            – connection refused / reset (e.g. pod was killed)
+    # 'timeout'          – upstream took too long to respond
+    # 'non_idempotent'   – also retry POST/PUT/PATCH (safe for idempotent APIs;
+    #                      remove if your endpoints are not idempotent)
+    # 'http_500'         – server-side crash before a response body is sent
+    # 'http_502'         – bad gateway (pod restarting, not yet ready)
+    # 'http_503'         – service unavailable (kube endpoints not yet updated)
+    # 'http_504'         – gateway timeout
+    nginx.ingress.kubernetes.io/proxy-next-upstream: "error timeout non_idempotent http_500 http_502 http_503 http_504"
+
+    # Maximum number of pods to try before giving up and returning an error.
+    # Set to 0 to try every available upstream (default nginx behaviour).
+    nginx.ingress.kubernetes.io/proxy-next-upstream-tries: "3"
+
+    # Hard wall-clock limit (seconds) across ALL retry attempts combined.
+    # Prevents a single request from hanging indefinitely while pods restart.
+    nginx.ingress.kubernetes.io/proxy-next-upstream-timeout: "10"
+
+    # ── Connection & Header Timeouts ──────────────────────────────────────────
+    # Time (seconds) to establish a TCP connection to the upstream pod.
+    # Should be short — a reachable pod connects in milliseconds.
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "5"
+
+    # Time (seconds) nginx waits for the upstream to send response *headers*.
+    # Covers slow pod start-up or first-byte latency.
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
+
+    # Time (seconds) nginx waits between successive writes to the upstream.
+    # Relevant for streaming / chunked requests; keep >= read timeout.
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "60"
+
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: rtsm.com
+      http:
+        paths:
+          # /dashboard — must come before / to avoid being swallowed by the root prefix
+          - path: /dashboard
+            pathType: Prefix
+            backend:
+              service:
+                name: grafana-service
+                port:
+                  number: 3000
+
+          # /metrics — routes to hydra-service
+          - path: /metrics
+            pathType: Prefix
+            backend:
+              service:
+                name: hydra-service
+                port:
+                  number: 80
+
+          # /data — routes to hydra-service
+          - path: /data
+            pathType: Prefix
+            backend:
+              service:
+                name: hydra-service
+                port:
+                  number: 80
+
+          # Root — routes to hydra-service frontend (catch-all, must be last)
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: rtsm-frontend-service
+                port:
+                  number: 80

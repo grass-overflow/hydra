@@ -1,0 +1,15 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: StressChaos
+metadata:
+  name: cpu-stress-example
+  namespace: hydra
+spec:
+  mode: one 
+  selector:
+    labelSelectors:
+      app: hydra 
+  stressors:
+    cpu:
+      workers: 4       
+      load: 100          
+  duration: '5m'       

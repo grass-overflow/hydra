@@ -1,0 +1,36 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: HTTPChaos
+metadata:
+  name: yahoo-network-chaos
+  namespace: hydra
+spec:
+  mode: all
+
+  selector:
+    namespaces:
+      - hydra
+    labelSelectors:
+      app: hydra
+
+  # target: Request
+  #
+  # port: 443
+  #
+  # delay: "3s"
+  #
+  # path: ".*finance.*"
+  #
+  # duration: "5m"
+  
+  target: Request
+  port: 443           # yfinance uses HTTPS
+  method: GET
+  tls:
+    secretName: "yahoo-tls-scret"
+    secretNamespace: "chaos-mesh"
+  replace:
+    headers:
+      Host: "query1.finance.yahoo.com"
+  delay: "2s"         # The amount of latency to inject
+  duration: "10m"      # How long the experiment should run
+

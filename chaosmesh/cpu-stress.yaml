@@ -1,0 +1,17 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: StressChaos
+metadata:
+  name: cpu-stress-example
+  namespace: hydra
+spec:
+  mode: one # Target one pod (use 'all' or 'fixed-percent' for more)
+  selector:
+    labelSelectors:
+      app: hydra # Change this to match your pod's label
+  containerNames:
+    - hydra-container
+  stressors:
+    cpu:
+      workers: 1       # Number of CPU cores to stress
+      load: 80         # Percentage of CPU load per worker
+  duration: '5m'       # Experiment lasts for 5 minutes

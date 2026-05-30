@@ -1,0 +1,20 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: rtsm-network-delay-v2
+  namespace: chaos-mesh
+spec:
+  action: delay
+  mode: all
+  selector:
+    namespaces:
+      - hydra
+    labelSelectors:
+      app: hydra
+  delay:
+    latency: "2000ms"
+    jitter: "0ms"
+    correlation: "0"
+  # externalTargets:
+  #   - "query1.finance.yahoo.com"
+  duration: "10m"

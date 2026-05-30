@@ -1,0 +1,9 @@
+observation_interval: 15
+chaos_injection_interval: 120
+max_replicas: 10
+min_replicas: 1
+rl_agent_service_url: "http://rl-agent-service:8000"
+prometheus_url: "http://prometheus-service:9090"
+namespace: "hydra"
+deployment_name: "hydra-deployment"
+max_steps: 200

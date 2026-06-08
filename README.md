@@ -48,7 +48,7 @@ Traditional Kubernetes orchestration relies on rigid, heuristic-based thresholds
 ## Key Components
 
 1. **React Frontend Dashboard (`frontend/`):** A premium stock monitoring dashboard built with React. It queries the backend ticker API, handles failures gracefully, and updates stock metrics every 20 seconds.
-2. **Hydra Backend Server (`hydra/`):** A FastAPI app that fetches real-time financial indicators using the Yahoo Finance API. It contains custom Prometheus gauge collectors that read container resource constraints directly from `/sys/fs/cgroup`.
+2. **Hydra Backend Server (`hydra/`):** A FastAPI app that fetches real-time financial indicators using the Yahoo Finance API. It features low-overhead cgroup v1/v2 telemetry collectors exposing container CPU and memory metrics directly to Prometheus, eliminating reliance on Kubernetes Metrics Server for RL state generation.
 3. **RL Model Service (`rl_controller/rl_agent_service.py`):** A FastAPI wrapper hosting the trained `ppo_kubernetes_hardened.zip` model, outputting inference predictions.
 4. **Chaos-RL Controller (`rl_controller/chaos_rl_controller.py`):** The master coordinator loop. It polls Prometheus, queries the model service, applies algorithmic safety guardrails, executes cluster actions, and coordinates Chaos Mesh injection sequences.
 5. **Observability Stack (`kb8-configs/`):** Embedded Prometheus and Grafana configurations providing real-time telemetry pipelines and dashboards.
@@ -195,6 +195,9 @@ The table below highlights the performance improvements observed when comparing 
 | **Scale-down Cooldown Response** | 300.0 s | 75.0 s | **4x Faster Cooldown** |
 | **Compute Resource Waste Factor** | High | Low | **86.7% Less Compute Waste** |
 | **Unnecessary Crashes/Restarts** | 4 (OOM killed) | 0 (Pre-emptive) | **Zero False-Positives** |
+
+> [!TIP]
+> For the exact benchmarking setup, Prometheus queries, sample sizes, and mathematical formulations of these calculations, see the detailed [Empirical Performance Evaluation & Benchmarking Report](evaluation_report.md).
 
 ---
 

@@ -2,7 +2,7 @@ apiVersion: chaos-mesh.org/v1alpha1
 kind: NetworkChaos
 metadata:
   name: rtsm-network-delay-v2
-  namespace: chaos-mesh
+  namespace: hydra
 spec:
   action: delay
   mode: all

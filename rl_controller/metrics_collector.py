@@ -2,6 +2,7 @@ import requests
 import json
 import logging
 import numpy as np
+from kubernetes import client, config as k8s_config
 
 logger = logging.getLogger("MetricsCollector")
 logging.basicConfig(level=logging.INFO)
@@ -14,6 +15,16 @@ class MetricsCollector:
         self.max_pods = max_pods
         self.max_steps = max_steps
         self.time_since_failure = 0
+        
+        # Load kubernetes configuration to query replica states directly
+        try:
+            k8s_config.load_incluster_config()
+        except Exception:
+            try:
+                k8s_config.load_kube_config()
+            except Exception:
+                pass
+        self.apps_v1 = client.AppsV1Api()
         
     def _query(self, query: str, default_val: float = 0.0) -> float:
         try:
@@ -31,16 +42,19 @@ class MetricsCollector:
         return default_val
 
     def get_state(self) -> np.ndarray:
-        # Replicas & Health
-        q_replicas = f'sum(kube_deployment_spec_replicas{{deployment="{self.deployment_name}", namespace="{self.namespace}"}})'
-        q_ready = f'sum(kube_deployment_status_replicas_ready{{deployment="{self.deployment_name}", namespace="{self.namespace}"}})'
-        
-        replicas = self._query(q_replicas, default_val=1.0)
-        healthy = self._query(q_ready, default_val=1.0)
+        # Replicas & Health: Query K8s API directly instead of relying on missing kube-state-metrics
+        replicas = 1.0
+        healthy = 0.0
+        try:
+            deploy = self.apps_v1.read_namespaced_deployment(self.deployment_name, self.namespace)
+            replicas = float(deploy.spec.replicas or 1.0)
+            healthy = float(deploy.status.ready_replicas or 0.0)
+        except Exception as e:
+            logger.warning(f"K8s API replicas query failed: {e}. Falling back to default.")
+            
         crashed = max(0.0, replicas - healthy)
         
-        # cpu & mem
-        # cpu & mem metrics from hydra application export endpoints
+        # cpu & mem from hydra application export endpoints via Prometheus
         q_cpu = 'avg(hydra_container_cpu_usage_percent) / 100.0'
         # memory limit normalization to 300MB
         q_mem = 'avg(hydra_container_memory_usage_mb) / 300.0'
@@ -48,9 +62,11 @@ class MetricsCollector:
         avg_cpu = self._query(q_cpu, default_val=0.1)
         avg_mem = self._query(q_mem, default_val=0.1)
         
-        # latency
+        # latency: convert to seconds (the model is trained expecting latency in seconds)
+        # Note: server.py observes latency in milliseconds (e.g. 250.0). We must divide by 1000.0 to convert to seconds.
         q_lat = f'sum(rate(hydra_http_request_duration_seconds_sum[1m])) / sum(rate(hydra_http_request_duration_seconds_count[1m]))'
-        avg_lat = self._query(q_lat, default_val=0.05) # Default 50ms = 0.05s
+        avg_lat_ms = self._query(q_lat, default_val=50.0) # Default 50ms
+        avg_lat = avg_lat_ms / 1000.0 # Convert to seconds
         
         # error from nginx
         q_err = f'sum(rate(nginx_ingress_controller_requests{{status=~"5..", namespace="{self.namespace}"}}[1m])) / sum(rate(nginx_ingress_controller_requests{{namespace="{self.namespace}"}}[1m]))'
@@ -66,21 +82,17 @@ class MetricsCollector:
         else:
             self.time_since_failure += 1
 
-        # we need to match trained model so order is important
-        # [healthy, degraded, crashed, avg_cpu, avg_mem, avg_lat_norm, avg_err, time_norm, replicas_norm]
-        
         state = np.array([
             healthy,
             degraded,
             crashed,
             avg_cpu,
             avg_mem,
-            avg_lat / 1.0, # normalizing based on 1000ms limit scaling
+            avg_lat / 1.0, # normalized based on 1.0 second limit scaling
             avg_err,
             min(1.0, self.time_since_failure / self.max_steps),
             min(1.0, replicas / self.max_pods)
         ], dtype=np.float32)
         
-        # clip state
         state = np.clip(state, 0.0, 100.0) 
         return list(state.astype(float))

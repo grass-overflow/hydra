@@ -1,0 +1,435 @@
+==================== CPU CHAOS ====================
+================================================================================
+            HYDRA RESEARCH-GRADE LIVE BENCHMARKING ENGINE
+================================================================================
+ This engine runs parallel stress-test iterations comparing Native HPA
+ against the trained PPO Agent, computing real statistical significance.
+ Chaos Type:     CPU
+ Load Generator: Grafana k6 at 25 RPS
+ SLA Threshold:  500.0 ms
+================================================================================
+[✓] Target URL resolved: http://192.168.49.2:30000/data?ticker=GOOGL
+
+================================================================================
+      CONFIGURING PHASE 1: NATIVE KUBERNETES HPA (RUN 1/2)
+================================================================================
+[!] Resetting pod scaling states...
+
+[▶] Starting Iteration for: Native K8s HPA
+[!] Warming up system metrics...
+[!] Starting K6 load generator (25 RPS)...
+[!] INJECTING CHAOS: stressor from /home/rohith/Desktop/Hydra/Project-HYDRA/chaosmesh/cpu-stress.yaml...
+[✓] Chaos Mesh stressor injected successfully.
+    [T+  0s] Replicas: 3/3 | Recent p95 Latency:    0.0ms
+    [T+ 10s] Replicas: 2/2 | Recent p95 Latency:    0.0ms
+    [T+ 20s] Replicas: 2/2 | Recent p95 Latency:    0.0ms
+    [T+ 30s] Replicas: 2/2 | Recent p95 Latency:    0.0ms
+    [T+ 40s] Replicas: 2/2 | Recent p95 Latency:    0.0ms
+    [T+ 50s] Replicas: 2/2 | Recent p95 Latency:    0.0ms
+    [T+ 60s] Replicas: 2/2 | Recent p95 Latency:    0.0ms
+    [T+ 70s] Replicas: 2/2 | Recent p95 Latency:    0.0ms
+    [T+ 80s] Replicas: 2/2 | Recent p95 Latency:    0.0ms
+[!] REMOVING CHAOS: Tearing down fault injectors...
+[✓] Chaos Mesh stressors removed.
+[!] MONITORING COOLDOWN: Tracking scale-down response speed for 60s...
+    [Cooldown T+  0s] Replicas: 2/2
+    [✓] Cooldown scale-down detected at T+0s!
+    [Cooldown T+ 10s] Replicas: 2/2
+    [Cooldown T+ 20s] Replicas: 2/2
+    [Cooldown T+ 30s] Replicas: 2/2
+    [Cooldown T+ 40s] Replicas: 2/2
+    [Cooldown T+ 50s] Replicas: 2/2
+
+================================================================================
+      CONFIGURING PHASE 1: NATIVE KUBERNETES HPA (RUN 2/2)
+================================================================================
+[!] Resetting pod scaling states...
+
+[▶] Starting Iteration for: Native K8s HPA
+[!] Warming up system metrics...
+[!] Starting K6 load generator (25 RPS)...
+[!] INJECTING CHAOS: stressor from /home/rohith/Desktop/Hydra/Project-HYDRA/chaosmesh/cpu-stress.yaml...
+[✓] Chaos Mesh stressor injected successfully.
+    [T+  0s] Replicas: 3/3 | Recent p95 Latency:  708.8ms
+    [T+ 10s] Replicas: 3/3 | Recent p95 Latency: 1398.7ms
+    [T+ 20s] Replicas: 3/3 | Recent p95 Latency: 1750.7ms
+    [T+ 30s] Replicas: 3/3 | Recent p95 Latency: 2783.1ms
+    [T+ 40s] Replicas: 3/3 | Recent p95 Latency: 2887.6ms
+    [T+ 50s] Replicas: 3/3 | Recent p95 Latency: 2887.6ms
+    [T+ 60s] Replicas: 3/3 | Recent p95 Latency: 2917.3ms
+    [T+ 70s] Replicas: 3/3 | Recent p95 Latency: 2927.1ms
+    [T+ 80s] Replicas: 3/3 | Recent p95 Latency: 2937.0ms
+[!] REMOVING CHAOS: Tearing down fault injectors...
+[✓] Chaos Mesh stressors removed.
+[!] MONITORING COOLDOWN: Tracking scale-down response speed for 60s...
+    [Cooldown T+  0s] Replicas: 3/3
+    [Cooldown T+ 10s] Replicas: 3/3
+    [Cooldown T+ 20s] Replicas: 3/3
+    [Cooldown T+ 30s] Replicas: 3/3
+    [Cooldown T+ 40s] Replicas: 3/3
+    [Cooldown T+ 50s] Replicas: 3/3
+
+================================================================================
+      CONFIGURING PHASE 2: HYDRA RL AGENT (RUN 1/2)
+================================================================================
+[!] Resetting pod scaling states...
+
+[▶] Starting Iteration for: Hydra RL Agent
+[!] Warming up system metrics...
+[!] Starting K6 load generator (25 RPS)...
+[!] INJECTING CHAOS: stressor from /home/rohith/Desktop/Hydra/Project-HYDRA/chaosmesh/cpu-stress.yaml...
+[✓] Chaos Mesh stressor injected successfully.
+    [T+  0s] Replicas: 2/2 | Recent p95 Latency:  682.5ms
+    [T+ 10s] Replicas: 2/2 | Recent p95 Latency: 2891.0ms
+    [T+ 20s] Replicas: 3/3 | Recent p95 Latency: 2891.0ms
+    [T+ 30s] Replicas: 4/4 | Recent p95 Latency: 2891.0ms
+    [T+ 40s] Replicas: 4/4 | Recent p95 Latency: 2837.4ms
+    [T+ 50s] Replicas: 5/5 | Recent p95 Latency: 2854.1ms
+    [T+ 60s] Replicas: 6/6 | Recent p95 Latency: 2674.6ms
+    [T+ 70s] Replicas: 6/6 | Recent p95 Latency: 1561.3ms
+    [T+ 80s] Replicas: 7/7 | Recent p95 Latency: 1372.9ms
+[!] REMOVING CHAOS: Tearing down fault injectors...
+[✓] Chaos Mesh stressors removed.
+[!] MONITORING COOLDOWN: Tracking scale-down response speed for 60s...
+    [Cooldown T+  0s] Replicas: 8/8
+    [Cooldown T+ 10s] Replicas: 7/7
+    [Cooldown T+ 20s] Replicas: 7/7
+    [Cooldown T+ 30s] Replicas: 6/6
+    [Cooldown T+ 40s] Replicas: 5/5
+    [Cooldown T+ 50s] Replicas: 5/5
+
+================================================================================
+      CONFIGURING PHASE 2: HYDRA RL AGENT (RUN 2/2)
+================================================================================
+[!] Resetting pod scaling states...
+
+[▶] Starting Iteration for: Hydra RL Agent
+[!] Warming up system metrics...
+[!] Starting K6 load generator (25 RPS)...
+[!] INJECTING CHAOS: stressor from /home/rohith/Desktop/Hydra/Project-HYDRA/chaosmesh/cpu-stress.yaml...
+[✓] Chaos Mesh stressor injected successfully.
+    [T+  0s] Replicas: 3/3 | Recent p95 Latency:  229.2ms
+    [T+ 10s] Replicas: 2/2 | Recent p95 Latency: 2027.2ms
+    [T+ 20s] Replicas: 3/3 | Recent p95 Latency: 2027.2ms
+    [T+ 30s] Replicas: 3/3 | Recent p95 Latency: 2027.2ms
+    [T+ 40s] Replicas: 4/4 | Recent p95 Latency: 2027.2ms
+    [T+ 50s] Replicas: 5/5 | Recent p95 Latency: 2484.6ms
+    [T+ 60s] Replicas: 5/5 | Recent p95 Latency: 2493.0ms
+    [T+ 70s] Replicas: 6/6 | Recent p95 Latency: 2721.5ms
+    [T+ 80s] Replicas: 7/7 | Recent p95 Latency: 2677.6ms
+[!] REMOVING CHAOS: Tearing down fault injectors...
+[✓] Chaos Mesh stressors removed.
+[!] MONITORING COOLDOWN: Tracking scale-down response speed for 60s...
+    [Cooldown T+  0s] Replicas: 8/8
+    [Cooldown T+ 10s] Replicas: 8/8
+    [Cooldown T+ 20s] Replicas: 7/7
+    [Cooldown T+ 30s] Replicas: 6/6
+    [Cooldown T+ 40s] Replicas: 6/6
+    [Cooldown T+ 50s] Replicas: 5/5
+
+================================================================================
+                     LIVE OPERATIONAL COMPARATIVE RESULTS
+================================================================================
+Operational Metric             | Native K8s HPA       | Hydra RL Agent       | Improvement 
+------------------------------------------------------------------------------------------
+p95 HTTP Request Latency       | 3001.1 ± 0.2 ms      | 3000.5 ± 0.1 ms      | +0.0%       
+Time to Recovery (TTR)         | 90.0 ± 0.0 s         | 90.0 ± 0.0 s         | +0.0%       
+Scale-down Cooldown            | 30.0 ± 42.4 s        | 60.0 ± 0.0 s         | -100.0%     
+Resource Cost (Pod-Seconds)    | 230.0 ± 56.6 pod-s   | 385.0 ± 7.1 pod-s    | -67.4%      
+Service Availability           | 18.1 ± 25.6 %        | 64.9 ± 8.2 %         | +258.4%     
+SLA Violations (>500.0ms)      | 40.0 ± 56.6 %        | 72.2 ± 5.4 %         | -80.5%      
+================================================================================
+[✓] Live cluster evaluation complete. Load generated via Grafana k6.
+================================================================================
+
+
+==================== MEMORY CHAOS ====================
+================================================================================
+            HYDRA RESEARCH-GRADE LIVE BENCHMARKING ENGINE
+================================================================================
+ This engine runs parallel stress-test iterations comparing Native HPA
+ against the trained PPO Agent, computing real statistical significance.
+ Chaos Type:     MEMORY
+ Load Generator: Grafana k6 at 25 RPS
+ SLA Threshold:  500.0 ms
+================================================================================
+[✓] Target URL resolved: http://192.168.49.2:30000/data?ticker=GOOGL
+
+================================================================================
+      CONFIGURING PHASE 1: NATIVE KUBERNETES HPA (RUN 1/2)
+================================================================================
+[!] Resetting pod scaling states...
+
+[▶] Starting Iteration for: Native K8s HPA
+[!] Warming up system metrics...
+[!] Starting K6 load generator (25 RPS)...
+[!] INJECTING CHAOS: stressor from /home/rohith/Desktop/Hydra/Project-HYDRA/chaosmesh/mem-stress.yaml...
+[✓] Chaos Mesh stressor injected successfully.
+    [T+  0s] Replicas: 3/3 | Recent p95 Latency:  317.1ms
+    [T+ 10s] Replicas: 2/2 | Recent p95 Latency: 1403.9ms
+    [T+ 20s] Replicas: 3/3 | Recent p95 Latency: 1403.9ms
+    [T+ 30s] Replicas: 3/3 | Recent p95 Latency: 1403.9ms
+    [T+ 40s] Replicas: 3/3 | Recent p95 Latency: 2330.3ms
+    [T+ 50s] Replicas: 3/3 | Recent p95 Latency: 2456.7ms
+    [T+ 60s] Replicas: 3/3 | Recent p95 Latency: 2731.5ms
+    [T+ 70s] Replicas: 3/3 | Recent p95 Latency: 2915.9ms
+    [T+ 80s] Replicas: 3/3 | Recent p95 Latency: 2896.8ms
+[!] REMOVING CHAOS: Tearing down fault injectors...
+[✓] Chaos Mesh stressors removed.
+[!] MONITORING COOLDOWN: Tracking scale-down response speed for 60s...
+    [Cooldown T+  0s] Replicas: 3/3
+    [Cooldown T+ 10s] Replicas: 3/3
+    [Cooldown T+ 20s] Replicas: 3/3
+    [Cooldown T+ 30s] Replicas: 3/3
+    [Cooldown T+ 40s] Replicas: 3/3
+    [Cooldown T+ 50s] Replicas: 3/3
+
+================================================================================
+      CONFIGURING PHASE 1: NATIVE KUBERNETES HPA (RUN 2/2)
+================================================================================
+[!] Resetting pod scaling states...
+
+[▶] Starting Iteration for: Native K8s HPA
+[!] Warming up system metrics...
+[!] Starting K6 load generator (25 RPS)...
+[!] INJECTING CHAOS: stressor from /home/rohith/Desktop/Hydra/Project-HYDRA/chaosmesh/mem-stress.yaml...
+[✓] Chaos Mesh stressor injected successfully.
+    [T+  0s] Replicas: 3/3 | Recent p95 Latency:    0.0ms
+    [T+ 10s] Replicas: 3/3 | Recent p95 Latency: 1712.0ms
+    [T+ 20s] Replicas: 3/3 | Recent p95 Latency: 2786.6ms
+    [T+ 30s] Replicas: 3/3 | Recent p95 Latency: 2831.5ms
+    [T+ 40s] Replicas: 3/3 | Recent p95 Latency: 2876.8ms
+    [T+ 50s] Replicas: 3/3 | Recent p95 Latency: 2873.9ms
+    [T+ 60s] Replicas: 3/3 | Recent p95 Latency: 2871.5ms
+    [T+ 70s] Replicas: 3/3 | Recent p95 Latency: 2859.5ms
+    [T+ 80s] Replicas: 3/3 | Recent p95 Latency: 2876.9ms
+[!] REMOVING CHAOS: Tearing down fault injectors...
+[✓] Chaos Mesh stressors removed.
+[!] MONITORING COOLDOWN: Tracking scale-down response speed for 60s...
+    [Cooldown T+  0s] Replicas: 3/3
+    [Cooldown T+ 10s] Replicas: 3/3
+    [Cooldown T+ 20s] Replicas: 3/3
+    [Cooldown T+ 30s] Replicas: 3/3
+    [Cooldown T+ 40s] Replicas: 3/3
+    [Cooldown T+ 50s] Replicas: 3/3
+
+================================================================================
+      CONFIGURING PHASE 2: HYDRA RL AGENT (RUN 1/2)
+================================================================================
+[!] Resetting pod scaling states...
+
+[▶] Starting Iteration for: Hydra RL Agent
+[!] Warming up system metrics...
+[!] Starting K6 load generator (25 RPS)...
+[!] INJECTING CHAOS: stressor from /home/rohith/Desktop/Hydra/Project-HYDRA/chaosmesh/mem-stress.yaml...
+[✓] Chaos Mesh stressor injected successfully.
+    [T+  0s] Replicas: 2/2 | Recent p95 Latency:    0.0ms
+    [T+ 10s] Replicas: 2/2 | Recent p95 Latency: 1171.8ms
+    [T+ 20s] Replicas: 3/3 | Recent p95 Latency: 1171.8ms
+    [T+ 30s] Replicas: 4/4 | Recent p95 Latency: 1171.8ms
+    [T+ 40s] Replicas: 4/4 | Recent p95 Latency: 1171.8ms
+    [T+ 50s] Replicas: 5/5 | Recent p95 Latency:    0.0ms
+    [T+ 60s] Replicas: 6/6 | Recent p95 Latency: 2072.6ms
+    [T+ 70s] Replicas: 6/6 | Recent p95 Latency: 2055.7ms
+    [T+ 80s] Replicas: 7/7 | Recent p95 Latency: 1956.9ms
+[!] REMOVING CHAOS: Tearing down fault injectors...
+[✓] Chaos Mesh stressors removed.
+[!] MONITORING COOLDOWN: Tracking scale-down response speed for 60s...
+    [Cooldown T+  0s] Replicas: 8/8
+    [Cooldown T+ 10s] Replicas: 7/7
+    [Cooldown T+ 20s] Replicas: 7/7
+    [Cooldown T+ 30s] Replicas: 6/6
+    [Cooldown T+ 40s] Replicas: 5/5
+    [Cooldown T+ 50s] Replicas: 5/5
+
+================================================================================
+      CONFIGURING PHASE 2: HYDRA RL AGENT (RUN 2/2)
+================================================================================
+[!] Resetting pod scaling states...
+
+[▶] Starting Iteration for: Hydra RL Agent
+[!] Warming up system metrics...
+[!] Starting K6 load generator (25 RPS)...
+[!] INJECTING CHAOS: stressor from /home/rohith/Desktop/Hydra/Project-HYDRA/chaosmesh/mem-stress.yaml...
+[✓] Chaos Mesh stressor injected successfully.
+    [T+  0s] Replicas: 3/3 | Recent p95 Latency:  582.4ms
+    [T+ 10s] Replicas: 2/2 | Recent p95 Latency:  549.5ms
+    [T+ 20s] Replicas: 3/3 | Recent p95 Latency:  549.5ms
+    [T+ 30s] Replicas: 3/4 | Recent p95 Latency:  549.5ms
+    [T+ 40s] Replicas: 4/4 | Recent p95 Latency:  549.5ms
+    [T+ 50s] Replicas: 5/5 | Recent p95 Latency:  248.9ms
+    [T+ 60s] Replicas: 5/6 | Recent p95 Latency: 2105.2ms
+    [T+ 70s] Replicas: 6/6 | Recent p95 Latency: 2261.5ms
+    [T+ 80s] Replicas: 7/7 | Recent p95 Latency: 2136.5ms
+[!] REMOVING CHAOS: Tearing down fault injectors...
+[X] Command failed: kubectl delete -f /home/rohith/Desktop/Hydra/Project-HYDRA/chaosmesh/mem-stress.yaml -n hydra
+    Error output: Error from server (NotFound): error when deleting "/home/rohith/Desktop/Hydra/Project-HYDRA/chaosmesh/mem-stress.yaml": stresschaos.chaos-mesh.org "memory-stress-test" not found
+[!] MONITORING COOLDOWN: Tracking scale-down response speed for 60s...
+    [Cooldown T+  0s] Replicas: 8/8
+    [Cooldown T+ 10s] Replicas: 8/8
+    [Cooldown T+ 20s] Replicas: 7/7
+    [Cooldown T+ 30s] Replicas: 6/6
+    [Cooldown T+ 40s] Replicas: 5/5
+    [Cooldown T+ 50s] Replicas: 5/5
+
+================================================================================
+                     LIVE OPERATIONAL COMPARATIVE RESULTS
+================================================================================
+Operational Metric             | Native K8s HPA       | Hydra RL Agent       | Improvement 
+------------------------------------------------------------------------------------------
+p95 HTTP Request Latency       | 3000.8 ± 0.0 ms      | 3000.6 ± 0.0 ms      | +0.0%       
+Time to Recovery (TTR)         | 90.0 ± 0.0 s         | 90.0 ± 0.0 s         | +0.0%       
+Scale-down Cooldown            | 60.0 ± 0.0 s         | 60.0 ± 0.0 s         | +0.0%       
+Resource Cost (Pod-Seconds)    | 265.0 ± 7.1 pod-s    | 395.0 ± 7.1 pod-s    | -49.1%      
+Service Availability           | 47.0 ± 18.5 %        | 50.0 ± 4.6 %         | +6.4%       
+SLA Violations (>500.0ms)      | 94.7 ± 7.4 %         | 49.0 ± 6.9 %         | +48.3%      
+================================================================================
+[✓] Live cluster evaluation complete. Load generated via Grafana k6.
+================================================================================
+
+
+==================== NETWORK CHAOS ====================
+================================================================================
+            HYDRA RESEARCH-GRADE LIVE BENCHMARKING ENGINE
+================================================================================
+ This engine runs parallel stress-test iterations comparing Native HPA
+ against the trained PPO Agent, computing real statistical significance.
+ Chaos Type:     NETWORK
+ Load Generator: Grafana k6 at 25 RPS
+ SLA Threshold:  500.0 ms
+================================================================================
+[✓] Target URL resolved: http://192.168.49.2:30000/data?ticker=GOOGL
+
+================================================================================
+      CONFIGURING PHASE 1: NATIVE KUBERNETES HPA (RUN 1/2)
+================================================================================
+[!] Resetting pod scaling states...
+
+[▶] Starting Iteration for: Native K8s HPA
+[!] Warming up system metrics...
+[!] Starting K6 load generator (25 RPS)...
+[!] INJECTING CHAOS: stressor from /home/rohith/Desktop/Hydra/Project-HYDRA/chaosmesh/network-stress.yaml...
+[✓] Chaos Mesh stressor injected successfully.
+    [T+  0s] Replicas: 2/2 | Recent p95 Latency:  608.7ms
+    [T+ 10s] Replicas: 2/2 | Recent p95 Latency: 2119.9ms
+    [T+ 20s] Replicas: 2/2 | Recent p95 Latency: 2119.9ms
+    [T+ 30s] Replicas: 2/2 | Recent p95 Latency: 2119.9ms
+    [T+ 40s] Replicas: 2/2 | Recent p95 Latency: 2119.9ms
+    [T+ 50s] Replicas: 2/2 | Recent p95 Latency: 2119.9ms
+    [T+ 60s] Replicas: 2/2 | Recent p95 Latency: 2119.9ms
+    [T+ 70s] Replicas: 2/2 | Recent p95 Latency: 2119.9ms
+    [T+ 80s] Replicas: 2/2 | Recent p95 Latency:    0.0ms
+[!] REMOVING CHAOS: Tearing down fault injectors...
+[✓] Chaos Mesh stressors removed.
+[!] MONITORING COOLDOWN: Tracking scale-down response speed for 60s...
+    [Cooldown T+  0s] Replicas: 2/2
+    [✓] Cooldown scale-down detected at T+0s!
+    [Cooldown T+ 10s] Replicas: 2/2
+    [Cooldown T+ 20s] Replicas: 2/2
+    [Cooldown T+ 30s] Replicas: 2/2
+    [Cooldown T+ 40s] Replicas: 2/2
+    [Cooldown T+ 50s] Replicas: 2/2
+
+================================================================================
+      CONFIGURING PHASE 1: NATIVE KUBERNETES HPA (RUN 2/2)
+================================================================================
+[!] Resetting pod scaling states...
+
+[▶] Starting Iteration for: Native K8s HPA
+[!] Warming up system metrics...
+[!] Starting K6 load generator (25 RPS)...
+[!] INJECTING CHAOS: stressor from /home/rohith/Desktop/Hydra/Project-HYDRA/chaosmesh/network-stress.yaml...
+[✓] Chaos Mesh stressor injected successfully.
+    [T+  0s] Replicas: 3/3 | Recent p95 Latency:    0.0ms
+    [T+ 10s] Replicas: 3/3 | Recent p95 Latency:    0.0ms
+    [T+ 20s] Replicas: 3/3 | Recent p95 Latency:    0.0ms
+    [T+ 30s] Replicas: 3/3 | Recent p95 Latency:    0.0ms
+    [T+ 40s] Replicas: 3/3 | Recent p95 Latency:    0.0ms
+    [T+ 50s] Replicas: 3/3 | Recent p95 Latency:    0.0ms
+    [T+ 60s] Replicas: 3/3 | Recent p95 Latency:    0.0ms
+    [T+ 70s] Replicas: 3/3 | Recent p95 Latency:    0.0ms
+    [T+ 80s] Replicas: 3/3 | Recent p95 Latency:    0.0ms
+[!] REMOVING CHAOS: Tearing down fault injectors...
+[✓] Chaos Mesh stressors removed.
+[!] MONITORING COOLDOWN: Tracking scale-down response speed for 60s...
+    [Cooldown T+  0s] Replicas: 3/3
+    [Cooldown T+ 10s] Replicas: 3/3
+    [Cooldown T+ 20s] Replicas: 3/3
+    [Cooldown T+ 30s] Replicas: 3/3
+    [Cooldown T+ 40s] Replicas: 3/3
+    [Cooldown T+ 50s] Replicas: 3/3
+
+================================================================================
+      CONFIGURING PHASE 2: HYDRA RL AGENT (RUN 1/2)
+================================================================================
+[!] Resetting pod scaling states...
+
+[▶] Starting Iteration for: Hydra RL Agent
+[!] Warming up system metrics...
+[!] Starting K6 load generator (25 RPS)...
+[!] INJECTING CHAOS: stressor from /home/rohith/Desktop/Hydra/Project-HYDRA/chaosmesh/network-stress.yaml...
+[✓] Chaos Mesh stressor injected successfully.
+    [T+  0s] Replicas: 2/2 | Recent p95 Latency:  431.3ms
+    [T+ 10s] Replicas: 2/2 | Recent p95 Latency: 2044.6ms
+    [T+ 20s] Replicas: 2/2 | Recent p95 Latency: 2044.6ms
+    [T+ 30s] Replicas: 2/2 | Recent p95 Latency: 2044.6ms
+    [T+ 40s] Replicas: 2/2 | Recent p95 Latency: 2044.6ms
+    [T+ 50s] Replicas: 3/3 | Recent p95 Latency: 2044.6ms
+    [T+ 60s] Replicas: 4/4 | Recent p95 Latency: 2044.6ms
+    [T+ 70s] Replicas: 4/4 | Recent p95 Latency: 2488.1ms
+    [T+ 80s] Replicas: 5/5 | Recent p95 Latency: 2409.9ms
+[!] REMOVING CHAOS: Tearing down fault injectors...
+[✓] Chaos Mesh stressors removed.
+[!] MONITORING COOLDOWN: Tracking scale-down response speed for 60s...
+    [Cooldown T+  0s] Replicas: 6/6
+    [Cooldown T+ 10s] Replicas: 5/5
+    [Cooldown T+ 20s] Replicas: 4/4
+    [Cooldown T+ 30s] Replicas: 4/4
+    [Cooldown T+ 40s] Replicas: 3/3
+    [Cooldown T+ 50s] Replicas: 2/2
+    [✓] Cooldown scale-down detected at T+50s!
+
+================================================================================
+      CONFIGURING PHASE 2: HYDRA RL AGENT (RUN 2/2)
+================================================================================
+[!] Resetting pod scaling states...
+
+[▶] Starting Iteration for: Hydra RL Agent
+[!] Warming up system metrics...
+[!] Starting K6 load generator (25 RPS)...
+[!] INJECTING CHAOS: stressor from /home/rohith/Desktop/Hydra/Project-HYDRA/chaosmesh/network-stress.yaml...
+[✓] Chaos Mesh stressor injected successfully.
+    [T+  0s] Replicas: 2/2 | Recent p95 Latency:    0.0ms
+    [T+ 10s] Replicas: 2/2 | Recent p95 Latency: 2183.5ms
+    [T+ 20s] Replicas: 1/1 | Recent p95 Latency: 2183.5ms
+    [T+ 30s] Replicas: 1/1 | Recent p95 Latency: 2183.5ms
+    [T+ 40s] Replicas: 1/1 | Recent p95 Latency: 2183.5ms
+    [T+ 50s] Replicas: 1/1 | Recent p95 Latency: 2183.5ms
+    [T+ 60s] Replicas: 1/1 | Recent p95 Latency: 2183.5ms
+    [T+ 70s] Replicas: 1/1 | Recent p95 Latency:    0.0ms
+    [T+ 80s] Replicas: 1/1 | Recent p95 Latency:    0.0ms
+[!] REMOVING CHAOS: Tearing down fault injectors...
+[✓] Chaos Mesh stressors removed.
+[!] MONITORING COOLDOWN: Tracking scale-down response speed for 60s...
+    [Cooldown T+  0s] Replicas: 1/1
+    [✓] Cooldown scale-down detected at T+0s!
+    [Cooldown T+ 10s] Replicas: 0/1
+    [Cooldown T+ 20s] Replicas: 1/1
+    [Cooldown T+ 30s] Replicas: 1/1
+    [Cooldown T+ 40s] Replicas: 0/1
+    [Cooldown T+ 50s] Replicas: 1/1
+
+================================================================================
+                     LIVE OPERATIONAL COMPARATIVE RESULTS
+================================================================================
+Operational Metric             | Native K8s HPA       | Hydra RL Agent       | Improvement 
+------------------------------------------------------------------------------------------
+p95 HTTP Request Latency       | 2000.7 ± 1414.1 ms   | 3000.3 ± 0.2 ms      | -50.0%      
+Time to Recovery (TTR)         | 90.0 ± 0.0 s         | 90.0 ± 0.0 s         | +0.0%       
+Scale-down Cooldown            | 30.0 ± 42.4 s        | 25.0 ± 35.4 s        | +16.7%      
+Resource Cost (Pod-Seconds)    | 225.0 ± 63.6 pod-s   | 185.0 ± 106.1 pod-s  | +17.8%      
+Service Availability           | 0.2 ± 0.2 %          | 16.0 ± 22.7 %        | +9180.4%    
+SLA Violations (>500.0ms)      | 50.0 ± 70.7 %        | 87.5 ± 17.7 %        | -75.0%      
+================================================================================
+[✓] Live cluster evaluation complete. Load generated via Grafana k6.
+================================================================================

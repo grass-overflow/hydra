@@ -2,7 +2,7 @@
 
 Project HYDRA (**H**ybrid **P**olicy-**D**riven **R**esiliency **A**gent) integrates a **Proximal Policy Optimization (PPO)** Reinforcement Learning (RL) Neural Network directly into a Kubernetes cluster to natively orchestrate scale testing, resource optimization, and proactive anomaly remediation. 
 
-By silencing native Kubernetes automation features (such as standard HorizontalPodAutoscalers and Liveness/Readiness probes), the cluster's stability and survival rely **100%** on the choices of the RL Agent. The agent checks state configurations every 15–30 seconds and determines the optimal actions to take.
+By silencing native Kubernetes automation features (such as standard HorizontalPodAutoscalers and Liveness/Readiness probes), the cluster's stability and survival rely **100%** on the choices of the RL Agent.
 
 ---
 
@@ -210,9 +210,3 @@ The table below highlights the performance improvements observed when comparing 
   [Screencast from 2026-04-05 02-53-44.webm](https://github.com/user-attachments/assets/2cc28d00-6e59-4d70-a3c9-87f581dfb486)
 
 ---
-
-## 📚 References
-* **[1]** Zhou, H., Chan, H. Y., Zhang, S. Y., Lin, M., & Ni, J. (2026). *A Kubernetes custom scheduler based on reinforcement learning for compute-intensive pods*. arXiv preprint arXiv:2601.13579. [https://doi.org/10.48550/arXiv.2601.13579](https://doi.org/10.48550/arXiv.2601.13579)
-* **[2]** Netflix - Chaos Monkey
-* **[3]** ChaosMesh - Docs
-* **[4]** *AI Meets Chaos Engineering: Designing Self-Healing Systems using Reinforcement Learning*
